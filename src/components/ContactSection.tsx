@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,7 +11,7 @@ const ContactSection = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -25,19 +24,54 @@ const ContactSection = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const { name, email, message } = formData;
+
+    // Basic client-side validation
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      toast({
+        title: "Validation error",
+        description: "All fields are required.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
+
+    try {
+      const response = await fetch(
+        "https://portfolio-contact-backend-mgnw.onrender.com/api/contact",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, message }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to send message.");
+      }
+
       toast({
         title: "Message sent!",
         description: "Thank you for reaching out. I'll get back to you soon.",
       });
+
       setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Submission failed",
+        description: "Something went wrong. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -118,10 +152,10 @@ const ContactSection = () => {
                 <div>
                   <p className="font-medium">Email</p>
                   <a 
-                    href="mailto:dhruv@example.com" 
+                    href="mailto:dhruvstackdev@gmail.com" 
                     className="text-muted-foreground hover:text-teal transition-colors"
                   >
-                    dhruv@example.com
+                    dhruvstackdev@gmail.com
                   </a>
                 </div>
               </div>
@@ -133,12 +167,12 @@ const ContactSection = () => {
                 <div>
                   <p className="font-medium">LinkedIn</p>
                   <a 
-                    href="https://linkedin.com/in/dhruv-zanzmera" 
+                    href="https://www.linkedin.com/in/dhruv-zanzmera-3a04062b0/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-muted-foreground hover:text-teal transition-colors"
                   >
-                    linkedin.com/in/dhruv-zanzmera
+                    https://www.linkedin.com/in/dhruv-zanzmera-3a04062b0/
                   </a>
                 </div>
               </div>
@@ -150,12 +184,12 @@ const ContactSection = () => {
                 <div>
                   <p className="font-medium">GitHub</p>
                   <a 
-                    href="https://github.com/dhruv-zanzmera" 
+                    href="https://github.com/codedByDhruv" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-muted-foreground hover:text-teal transition-colors"
                   >
-                    github.com/dhruv-zanzmera
+                    https://github.com/codedByDhruv
                   </a>
                 </div>
               </div>

@@ -2,6 +2,8 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Github } from "lucide-react";
+import FitFocus from '../assets/images/FitFocus.png';
+import PixelCraft from '../assets/images/PixelCraft.png';
 
 interface Project {
   id: number;
@@ -15,43 +17,32 @@ interface Project {
 
 const ProjectsSection = () => {
   const projects: Project[] = [
-    {
-      id: 1,
-      title: "E-Commerce Platform",
-      description: "A full-featured e-commerce platform built with React, Node.js, Express, and MongoDB with secure authentication and payment integration.",
-      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-      tags: ["React", "Node.js", "MongoDB", "Express", "Redux", "Stripe"],
-      liveUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      id: 2,
-      title: "Task Management App",
-      description: "A collaborative task management application with real-time updates, user roles, and customizable dashboards.",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-      tags: ["React", "Node.js", "Socket.io", "MongoDB", "JWT", "Material UI"],
-      liveUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      id: 3,
-      title: "Social Media Dashboard",
-      description: "An analytics dashboard that integrates with multiple social media platforms to provide unified insights and metrics.",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
-      tags: ["React", "TypeScript", "Express", "Chart.js", "REST API"],
-      liveUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      id: 4,
-      title: "Real-time Chat Application",
-      description: "A real-time messaging application with private and group chats, file sharing, and read receipts.",
-      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-      tags: ["React", "Node.js", "Socket.io", "MongoDB", "Redux"],
-      liveUrl: "#",
-      githubUrl: "#",
-    },
-  ];
+  {
+    id: 1,
+    title: "FitFocus",
+    description: "A personal fitness trainer website featuring workout programs, trainer profiles, and a responsive design. Built using React, Vite, Tailwind CSS, and Node.js.",
+    image: FitFocus,
+    tags: ["React", "Vite", "Tailwind CSS", "Node.js"],
+    liveUrl: "https://fit-focus-two.vercel.app/",
+  },
+  {
+    id: 2,
+    title: "Pixel Craft",
+    description: "A modern digital agency website showcasing services, portfolio, and contact forms. Created using React, Vite, Tailwind CSS, and Node.js.",
+    image: PixelCraft,
+    tags: ["React", "Vite", "Tailwind CSS", "Node.js"],
+  },
+  // {
+  //   id: 3,
+  //   title: "Admin Panel Dashboard",
+  //   description: "A responsive admin dashboard with charts, tables, and theme toggle. Built using React and Vite for modern admin interfaces.",
+  //   image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
+  //   tags: ["React", "Vite"],
+  //   liveUrl: "https://admin-panel-eta-five.vercel.app/",
+  //   githubUrl: "#",
+  // },
+];
+
 
   return (
     <section id="projects" className="section-padding">
@@ -93,12 +84,6 @@ const ProjectsSection = () => {
                 <Button asChild variant="default" className="bg-teal text-black hover:bg-teal-dark">
                   <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                     Live Demo
-                  </a>
-                </Button>
-                <Button asChild variant="outline">
-                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                    <Github className="w-4 h-4 mr-2" />
-                    Code
                   </a>
                 </Button>
               </CardFooter>

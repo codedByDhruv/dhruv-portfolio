@@ -9,8 +9,7 @@ const AboutSection = () => {
   ];
 
   const tools = [
-    "VS Code", "Figma", "Postman", "MongoDB Atlas", 
-    "Vercel", "Netlify", "AWS", "Webpack"
+    "VS Code", "Figma", "Postman", "MongoDB Atlas", "Vercel"
   ];
 
   return (
