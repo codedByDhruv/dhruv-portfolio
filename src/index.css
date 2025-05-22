@@ -102,7 +102,7 @@
   }
   
   .animated-underline::after {
-    @apply content-[''] absolute w-0 h-0.5 bg-teal left-0 -bottom-1 transition-all duration-300;
+    @apply content-[''] absolute w-0 h-0.5 bg-sky-500 left-0 -bottom-1 transition-all duration-300;
   }
   
   .animated-underline:hover::after {

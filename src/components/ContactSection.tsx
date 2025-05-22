@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -14,6 +18,14 @@ const ContactSection = () => {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Refs for GSAP
+  const sectionRef = useRef(null);
+  const headingRef = useRef(null);
+  const paragraphRef = useRef(null);
+  const formCardRef = useRef(null);
+  const contactListRefs = useRef<HTMLDivElement[]>([]);
+  const finalNoteRef = useRef(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -26,10 +38,8 @@ const ContactSection = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const { name, email, message } = formData;
 
-    // Basic client-side validation
     if (!name.trim() || !email.trim() || !message.trim()) {
       toast({
         title: "Validation error",
@@ -74,18 +84,104 @@ const ContactSection = () => {
     }
   };
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headingRef.current,
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+          },
+        }
+      );
+
+      gsap.fromTo(
+        paragraphRef.current,
+        { y: 20, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          delay: 0.2,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+          },
+        }
+      );
+
+      gsap.fromTo(
+        formCardRef.current,
+        { x: -50, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          delay: 0.3,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+
+      gsap.fromTo(
+        contactListRefs.current,
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.2,
+          delay: 0.4,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+
+      gsap.fromTo(
+        finalNoteRef.current,
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          delay: 0.6,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="contact" className="section-padding bg-secondary/30">
+    <section ref={sectionRef} id="contact" className="section-padding bg-secondary/30">
       <div className="container-custom">
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">
-          Get in <span className="text-teal">Touch</span>
+        <h2 ref={headingRef} className="text-3xl md:text-4xl font-bold mb-2">
+          Get in <span className="text-sky-500">Touch</span>
         </h2>
-        <p className="text-muted-foreground mb-12 max-w-2xl">
+        <p ref={paragraphRef} className="text-muted-foreground mb-12 max-w-2xl">
           Have a project in mind or want to discuss collaboration opportunities? I'd love to hear from you!
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <Card className="border-none shadow-md">
+          <Card ref={formCardRef} className="border-none shadow-md">
             <CardContent className="p-6">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -131,9 +227,9 @@ const ContactSection = () => {
                     className="w-full min-h-32"
                   />
                 </div>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-teal text-black hover:bg-teal-dark"
+                <Button
+                  type="submit"
+                  className="w-full bg-sky-500 text-black hover:bg-sky-500-dark"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}
@@ -145,57 +241,48 @@ const ContactSection = () => {
           <div className="flex flex-col justify-center">
             <h3 className="text-2xl font-semibold mb-6">Connect With Me</h3>
             <div className="space-y-6">
-              <div className="flex items-center">
-                <div className="rounded-full p-3 bg-secondary mr-4">
-                  <Mail className="w-6 h-6 text-teal" />
+              {[
+                {
+                  icon: <Mail className="w-6 h-6 text-sky-500" />,
+                  label: "Email",
+                  text: "dhruvstackdev@gmail.com",
+                  link: "mailto:dhruvstackdev@gmail.com",
+                },
+                {
+                  icon: <Linkedin className="w-6 h-6 text-sky-500" />,
+                  label: "LinkedIn",
+                  text: "linkedin.com/in/dhruv-zanzmera-3a04062b0",
+                  link: "https://www.linkedin.com/in/dhruv-zanzmera-3a04062b0/",
+                },
+                {
+                  icon: <Github className="w-6 h-6 text-sky-500" />,
+                  label: "GitHub",
+                  text: "github.com/codedByDhruv",
+                  link: "https://github.com/codedByDhruv",
+                },
+              ].map((item, index) => (
+                <div
+                  key={item.label}
+                  ref={(el) => (contactListRefs.current[index] = el!)}
+                  className="flex items-center"
+                >
+                  <div className="rounded-full p-3 bg-secondary mr-4">{item.icon}</div>
+                  <div>
+                    <p className="font-medium">{item.label}</p>
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-sky-500 transition-colors"
+                    >
+                      {item.text}
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium">Email</p>
-                  <a 
-                    href="mailto:dhruvstackdev@gmail.com" 
-                    className="text-muted-foreground hover:text-teal transition-colors"
-                  >
-                    dhruvstackdev@gmail.com
-                  </a>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <div className="rounded-full p-3 bg-secondary mr-4">
-                  <Linkedin className="w-6 h-6 text-teal" />
-                </div>
-                <div>
-                  <p className="font-medium">LinkedIn</p>
-                  <a 
-                    href="https://www.linkedin.com/in/dhruv-zanzmera-3a04062b0/" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-muted-foreground hover:text-teal transition-colors"
-                  >
-                    https://www.linkedin.com/in/dhruv-zanzmera-3a04062b0/
-                  </a>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <div className="rounded-full p-3 bg-secondary mr-4">
-                  <Github className="w-6 h-6 text-teal" />
-                </div>
-                <div>
-                  <p className="font-medium">GitHub</p>
-                  <a 
-                    href="https://github.com/codedByDhruv" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-muted-foreground hover:text-teal transition-colors"
-                  >
-                    https://github.com/codedByDhruv
-                  </a>
-                </div>
-              </div>
+              ))}
             </div>
-            
-            <div className="mt-12">
+
+            <div ref={finalNoteRef} className="mt-12">
               <h3 className="text-xl font-semibold mb-4">Let's Build Something Amazing Together</h3>
               <p className="text-muted-foreground">
                 I'm currently available for freelance work and full-time positions.

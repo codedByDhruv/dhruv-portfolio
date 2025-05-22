@@ -47,7 +47,7 @@ const NavBar = ({ darkMode, toggleTheme }: NavBarProps) => {
     )}>
       <div className="container-custom flex items-center justify-between h-16 md:h-20">
         <div className="text-lg md:text-xl font-heading font-bold">
-          <span className="text-teal">D</span>hruv <span className="text-teal">Z</span>anzmera
+          <span className="text-sky-500">D</span>hruv <span className="text-sky-500">Z</span>anzmera
         </div>
 
         {/* Desktop Navigation */}
@@ -56,7 +56,7 @@ const NavBar = ({ darkMode, toggleTheme }: NavBarProps) => {
             <button
               key={link.id}
               onClick={() => scrollToSection(link.id)}
-              className="animated-underline text-foreground hover:text-teal transition-colors"
+              className="animated-underline text-foreground hover:text-sky-500 transition-colors"
             >
               {link.name}
             </button>
